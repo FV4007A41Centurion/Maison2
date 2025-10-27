@@ -1,16 +1,16 @@
-// furry_spam.ino
-// Prints a stream of playful "furry" messages to the Serial Monitor.
+// code a marc.ino
+// Prints a stream of playful "marc" messages to the Serial Monitor.
 // Connect your Arduino, open the Serial Monitor at 115200 baud.
 
 const char *messages[] = {
-  "rawr~ >:3",
+  "roar~ >:(",
   "hello friend, wag wag 🐾",
-  "pawsitive vibes only! ✨",
-  "snuggles incoming :3",
+  "negative vibes only! ✨",
+  "snuggles incoming :V",
   "got snacks? i has snacks! 🥨",
-  "tail wiggle! *wiggle*",
+  "tail wiggle! *giggle*",
   "mlem mlem (respect the snoot)",
-  "fursuits are awesome! 🐺",
+  "powersuits are awesome! 🐺",
   "time for a nap... maybe five naps",
   "zoomies activated! 🏃‍♂️💨"
 };
