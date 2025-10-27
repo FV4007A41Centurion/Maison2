@@ -1,8 +1,9 @@
-//Hello guys ceci est mon code...
+//Hello guys ceci est mon code... Maintentan il est modifié
 
-Serial.println(''Bye bye world'');
+Serial.begin(9600);
+Serial.println("Bye bye world");
 Void(main){
 delete system32;
 }
 
-//Ta capté la blagounette?
+//Ta capté la blagounette? Oui!!
