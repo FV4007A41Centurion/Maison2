@@ -7,12 +7,12 @@ const char *messages[] = {
   "hello friend, wag wag 🐾",
   "negative vibes only! ✨",
   "snuggles incoming :V",
-  "got snacks? i has snacks! 🥨",
+  "bite? i bite >:3! 🥨",
   "tail wiggle! *giggle*",
   "mlem mlem (respect the snoot)",
-  "powersuits are awesome! 🐺",
+  "furries are awesome! 🐺",
   "time for a nap... maybe five naps",
-  "zoomies activated! 🏃‍♂️💨"
+  "huggie wiggies UwU activated! 🏃‍♂️💨"
 };
 
 const size_t MSG_COUNT = sizeof(messages) / sizeof(messages[0]);
@@ -25,7 +25,7 @@ void setup() {
   // Seed RNG with an unconnected analog pin for variety (optional)
   randomSeed(analogRead(A0));
   // Give Serial Monitor time to open if you want
-  delay(200);
+  delay(500);
 }
 
 void loop() {
@@ -39,5 +39,5 @@ void loop() {
   // Serial.print(" ms] ");
   // Serial.println(m);
 
-  delay(delayMs); // change or remove for faster/slower spam
+  delay(1000); // change or remove for faster/slower spam
 }
