@@ -37,7 +37,7 @@ void setup() {
     BLE.addCharacteristic(rxCharacteristic);
     BleAdvertisingData data;
     data.appendServiceUUID(serviceUuid);
-    data.appendLocalName("LaMaison2Porte");
+    data.appendLocalName("Lmsn2Prt"); // name must not be bigger than 8 chars
     BLE.advertise(&data);
 }
 
@@ -52,3 +52,4 @@ void loop() {
         delay(500);
     }
 }
+
