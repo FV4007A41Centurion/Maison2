@@ -7,7 +7,7 @@ Sécuriser votre maison au maximum avec un réseau de microcontrôleurs ESP32 et
 #### ESP32
 Pas encore terminé
 #### Photon2
-Pas commencé
+Commencé
 ### Cablâge
 Pas terminé
 ## Notre équipe
