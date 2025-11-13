@@ -1,61 +1,25 @@
-#include <ArduinoBLE.h>
+// Exemple de lecture d'un bouton sur Photon 2
 
-const int window1Pin = 2;
-const int window2Pin = 3;
-
-BLEService Service("78bcafe0-4f63-4222-a7ab-8bb05d7fd6cf"); // create service
-
-// create button characteristic and allow remote device to get notifications
-BLEByteCharacteristic windowCharacteristic("78bcafe1-4f63-4222-a7ab-8bb05d7fd6cf", BLERead | BLENotify);
+const int buttonPin = D2;  // le bouton est connecté sur la broche D2
+bool buttonState = HIGH;   // état du bouton (HIGH = non appuyé avec pull-up)
 
 void setup() {
+  pinMode(buttonPin, INPUT_PULLUP); // active la résistance pull-up interne
   Serial.begin(9600);
-  while (!Serial);
-  Serial.println("Program begin");
-
-  pinMode(window1Pin, INPUT); // use button pin as an input
-  pinMode(window2Pin, INPUT); // use button pin as an input
-
-  // begin initialization
-  if (!BLE.begin()) {
-    Serial.println("starting Bluetooth® Low Energy module failed!");
-
-    while (1);
-  } else {
-    Serial.println("BLE success");
-  }
-
-  // set the local name peripheral advertises
-  BLE.setLocalName("lamaisonnetten2fenetre");
-  // set the UUID for the service this peripheral advertises:
-  BLE.setAdvertisedService(Service);
-
-  // add the characteristics to the service
-  Service.addCharacteristic(windowCharacteristic);
-
-  // add the service
-  BLE.addService(Service);
-
-  windowCharacteristic.writeValue(0);
-
-  // start advertising
-  BLE.advertise();
-
-  Serial.println("Bluetooth® device active, waiting for connections...");
+  delay(1000);
+  Serial.println("Lecture du bouton prête !");
 }
 
 void loop() {
-  // poll for Bluetooth® Low Energy events
-  BLE.poll();
+  // Lire l'état du bouton
+  buttonState = digitalRead(buttonPin);
 
-  // read the current button pin state
-  char windowValue = digitalRead(window1Pin) || digitalRead(window2Pin);
-
-  // has the value changed since the last read
-  bool stateChanged = (windowCharacteristic.value() != windowValue);
-
-  if (stateChanged) {
-    // button state changed, update characteristics
-    windowCharacteristic.writeValue(windowValue);
+  // Afficher l'état sur le moniteur série
+  if (buttonState == LOW) {
+    Serial.println("Bouton appuyé !");
+  } else {
+    Serial.println("Bouton relâché !");
   }
+
+  delay(200); // petite pause pour éviter trop de messages
 }
