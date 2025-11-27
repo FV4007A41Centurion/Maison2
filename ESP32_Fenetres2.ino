@@ -41,7 +41,7 @@ void onDataRecieved(const uint8_t* data, size_t len,
 
 // ------------------- SETUP -------------------
 void setup() {
-
+Serial.begin (9600); 
     // Variables visibles dans la console Particle
     Particle.variable("window1Closed", window1Value);
     Particle.variable("window2Closed", window2Value);
@@ -71,11 +71,16 @@ void loop() {
     window2Value = w2;
 
     // Envoi BLE toutes les 500 ms
-    if (BLE.connected() && millis() - lastSend >= SEND_INTERVAL) {
+    if ( millis() - lastSend >= SEND_INTERVAL) {
 
         uint8_t buf[2];
         buf[0] = w1;
         buf[1] = w2;
+        
+  Serial.print("w1:");
+  Serial.println(w1);
+  Serial.print("w2:");
+  Serial.println(w2);
 
         txCharacteristic.setValue(buf, 2);
 
