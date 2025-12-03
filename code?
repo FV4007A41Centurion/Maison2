@@ -1,0 +1,80 @@
+#include <ArduinoBLE.h>
+#include <stdint.h>
+
+// variables for button
+const int alarmPin = 2;
+long int alarmState = LOW; 
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(alarmPin, OUTPUT);
+
+  //BLE init et scan
+  if (!BLE.begin()) {
+    Serial.println("starting Bluetooth® Low Energy module failed!");
+    while (1);
+  }
+  BLE.scanForName("Lamaison2");
+}
+
+void loop() {
+  //Si trouvé peripheral
+  BLEDevice peripheral = BLE.available();
+  if (peripheral) {
+    Serial.print("Trouvé: ");
+    Serial.println(peripheral.localName());
+
+    //Stop scanning. Connect and communicate.
+    BLE.stopScan();
+    Communique(peripheral);
+  }
+}
+
+// Callback for when BLE receives data
+void onBLERx(BLEDevice peripheral, BLECharacteristic characteristic) {
+  uint8_t buttonState[] = {0};
+  characteristic.readValue(alarmState);
+  buttonState[0] += 48; //convertir décimal en ascii
+  Serial.print("État de l'alarme: ");
+  Serial.write(alarmState);
+  Serial.println(".");
+}
+
+void Communique(BLEDevice peripheral) {
+  //Connect et trouve les charactéristiques DEL et Bouton
+
+  peripheral.discoverAttributes();
+  BLECharacteristic ledCharacteristic = peripheral.characteristic("19B10011-E8F2-537E-4F6C-D104768A1214");
+  BLECharacteristic buttonCharacteristic = peripheral.characteristic("19B10012-E8F2-537E-4F6C-D104768A1214");
+
+  //Le peripheral va faire appeler la fonction onBLERx quand le bouton sera pesé
+  buttonCharacteristic.setEventHandler(BLEWritten, onBLERx);
+  buttonCharacteristic.subscribe();
+
+  // Track previous LED state (to avoid redundant BLE writes)
+  int oldalarmState = LOW;
+
+  while (peripheral.connected()) {
+    // Read both window sensors
+    int alarmPin = digitalRead(alarmPin);
+
+    // OR logic: if either is HIGH, LED should be ON
+    
+
+    if (alarmState != oldalarmState) {
+      oldalarmState = alarmState;
+
+      if (alarmState == HIGH) {
+        Serial.println("One or both windows open, ALARM ON");
+        ledCharacteristic.writeValue((byte)0x01);
+      } else {
+        Serial.println("Alarm off");
+        ledCharacteristic.writeValue((byte)0x00);
+      }
+    }
+
+    delay(50); // small debounce/loop delay
+  }
+
+  Serial.println("Peripheral disconnected");
+}
