@@ -15,7 +15,7 @@ const uint8_t DOOR_PIN = D2;
 const uint8_t LED_PIN = D7;
 bool doorValue;
 unsigned long lastSend = 0;       // anti-spam timer
-const uint16_t SEND_INTERVAL = 500; // ms
+const uint16_t SEND_INTERVAL = 250; // ms
 
 
 // inutile?
@@ -53,7 +53,6 @@ void loop() {
         txCharacteristic.setValue(txBuf, 1);
         advertiseValue((String)doorValue);
         // Attendre pour pas spam
-        delay(500);
         lastSend = millis();
     }
 }
